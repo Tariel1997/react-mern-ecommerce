@@ -6,6 +6,7 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig } from 'eslint/config'
 import globals from 'globals'
+import tseslint from 'typescript-eslint'
 
 export default defineConfig([
   {
@@ -21,9 +22,13 @@ export default defineConfig([
   },
 
   {
-    files: ['**/*.{js,mjs,cjs,jsx}'],
-    plugins: { js },
+    files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
+    plugins: {
+      js,
+      '@typescript-eslint': tseslint.plugin,
+    },
     languageOptions: {
+      parser: tseslint.parser,
       globals: {
         ...globals.browser,
         ...globals.node,
@@ -36,10 +41,11 @@ export default defineConfig([
     },
     rules: {
       ...js.configs.recommended.rules,
+      ...tseslint.configs.recommended[0].rules,
     },
   },
   {
-    files: ['frontend/src/**/*.{js,jsx}'],
+    files: ['frontend/src/**/*.{js,jsx,ts,tsx}'],
     languageOptions: {
       parserOptions: {
         ecmaVersion: 'latest',
