@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import express from 'express'
 
 import { connectDB } from './lib/db.js'
+import analyticsRoutes from './routes/analytics.route.js'
 import authRoutes from './routes/auth.route.js'
 import cartRoutes from './routes/cart.route.js'
 import couponRoutes from './routes/coupon.route.js'
@@ -22,6 +23,7 @@ app.use('/api/products', productRoutes)
 app.use('/api/cart', cartRoutes)
 app.use('/api/coupons', couponRoutes)
 app.use('/api/payments', paymentRoutes)
+app.use('/api/analytics', analyticsRoutes)
 
 app.listen(PORT, () => {
   console.log('Server is running on http://localhost:' + PORT)
