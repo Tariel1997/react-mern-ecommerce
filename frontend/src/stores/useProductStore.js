@@ -3,7 +3,7 @@ import { create } from 'zustand'
 
 import axios from '../lib/axios'
 
-export const useProductStore = create((set) => ({
+export const useProductStore = create((set, get) => ({
   products: [],
   loading: false,
 
@@ -37,35 +37,32 @@ export const useProductStore = create((set) => ({
   },
 
   deleteProduct: async (productId) => {
-    set({ loading: true })
+    const previousProducts = get().products
+    set((state) => ({
+      products: state.products.filter((product) => product._id !== productId),
+    }))
     try {
       await axios.delete(`/products/${productId}`)
-      set((prevProducts) => ({
-        products: prevProducts.products.filter(
-          (product) => product._id !== productId,
-        ),
-        loading: false,
-      }))
+      toast.success('Product deleted successfully')
     } catch (error) {
-      set({ loading: false })
+      set({ products: previousProducts })
       toast.error(error?.response?.data?.error || 'Failed to delete product')
     }
   },
 
   toggleFeaturedProduct: async (productId) => {
-    set({ loading: true })
+    const previousProducts = get().products
+    set((state) => ({
+      products: state.products.map((product) =>
+        product._id === productId
+          ? { ...product, isFeatured: !product.isFeatured }
+          : product,
+      ),
+    }))
     try {
-      const response = await axios.patch(`/products/${productId}`)
-      set((prevProducts) => ({
-        products: prevProducts.products.map((product) =>
-          product._id === productId
-            ? { ...product, isFeatured: response.data.isFeatured }
-            : product,
-        ),
-        loading: false,
-      }))
+      await axios.patch(`/products/${productId}`)
     } catch (error) {
-      set({ loading: false })
+      set({ products: previousProducts })
       toast.error(error?.response?.data?.error || 'Failed to update product')
     }
   },
