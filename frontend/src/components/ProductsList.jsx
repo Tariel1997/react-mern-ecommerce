@@ -135,12 +135,10 @@ const ProductsList = () => {
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               className="relative bg-gray-800 border border-gray-700 p-6 rounded-lg shadow-2xl max-w-sm w-full z-10"
             >
-              <h3 className="text-xl font-bold text-white mb-4">
-                Confirm Deletion
-              </h3>
+              <h3 className="text-xl font-bold text-white mb-4">Confirm Deletion</h3>
               <p className="text-gray-300 mb-6">
-                Are you sure you want to delete this product? This action cannot
-                be undone.
+                Are you sure you want to delete this product? This action cannot be
+                undone.
               </p>
               <div className="flex justify-end gap-4">
                 <button

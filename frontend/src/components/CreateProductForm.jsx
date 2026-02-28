@@ -67,10 +67,7 @@ const CreateProductForm = () => {
 
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-gray-300"
-          >
+          <label htmlFor="name" className="block text-sm font-medium text-gray-300">
             Product Name
           </label>
           <input
@@ -78,9 +75,7 @@ const CreateProductForm = () => {
             id="name"
             name="name"
             value={newProduct.name}
-            onChange={(e) =>
-              setNewProduct({ ...newProduct, name: e.target.value })
-            }
+            onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
             className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm py-2
 						 px-3 text-white focus:outline-none focus:ring-2
 						focus:ring-emerald-500 focus:border-emerald-500"
@@ -111,10 +106,7 @@ const CreateProductForm = () => {
         </div>
 
         <div>
-          <label
-            htmlFor="price"
-            className="block text-sm font-medium text-gray-300"
-          >
+          <label htmlFor="price" className="block text-sm font-medium text-gray-300">
             Price
           </label>
           <input
@@ -122,9 +114,7 @@ const CreateProductForm = () => {
             id="price"
             name="price"
             value={newProduct.price}
-            onChange={(e) =>
-              setNewProduct({ ...newProduct, price: e.target.value })
-            }
+            onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
             step="0.01"
             className="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm 
 						py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500
@@ -190,10 +180,7 @@ const CreateProductForm = () => {
         >
           {loading ? (
             <>
-              <Loader
-                className="mr-2 h-5 w-5 animate-spin"
-                aria-hidden="true"
-              />
+              <Loader className="mr-2 h-5 w-5 animate-spin" aria-hidden="true" />
               Loading...
             </>
           ) : (

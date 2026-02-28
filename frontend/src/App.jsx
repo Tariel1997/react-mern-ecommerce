@@ -4,7 +4,9 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 
 import LoadingSpinner from './components/LoadingSpinner'
 import Navbar from './components/Navbar'
+import ScrollToTop from './components/ScrollToTop'
 import AdminPage from './pages/AdminPage'
+import CategoryPage from './pages/CategoryPage'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import SignUpPage from './pages/SignUpPage'
@@ -30,6 +32,7 @@ function App() {
 
       <div className="relative z-50 pt-20">
         <Navbar />
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route
@@ -46,6 +49,7 @@ function App() {
               user?.role === 'admin' ? <AdminPage /> : <Navigate to="/login" />
             }
           />
+          <Route path="/category/:category" element={<CategoryPage />} />
         </Routes>
       </div>
       <Toaster />

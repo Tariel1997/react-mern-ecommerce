@@ -3,7 +3,7 @@ import { create } from 'zustand'
 
 import axios from '../lib/axios'
 
-export const useUserStore = create((set, get) => ({
+export const useUserStore = create((set) => ({
   user: null,
   loading: false,
   checkingAuth: true,
@@ -25,9 +25,7 @@ export const useUserStore = create((set, get) => ({
       toast.success('Account created successfully!')
     } catch (error) {
       set({ loading: false })
-      toast.error(
-        error.response?.data?.message || 'An error occurred during signup',
-      )
+      toast.error(error.response?.data?.message || 'An error occurred during signup')
     }
   },
 
@@ -43,9 +41,7 @@ export const useUserStore = create((set, get) => ({
       toast.success('Logged in successfully!')
     } catch (error) {
       set({ loading: false })
-      toast.error(
-        error.response?.data?.message || 'An error occurred during login',
-      )
+      toast.error(error.response?.data?.message || 'An error occurred during login')
     }
   },
 
@@ -54,9 +50,7 @@ export const useUserStore = create((set, get) => ({
       await axios.post('/auth/logout')
       set({ user: null })
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || 'An error occurred during logout',
-      )
+      toast.error(error.response?.data?.message || 'An error occurred during logout')
     }
   },
 
