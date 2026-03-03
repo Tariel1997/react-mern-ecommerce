@@ -1,12 +1,15 @@
 import { motion } from 'framer-motion'
+import { useState } from 'react'
 
 import CartItem from '../components/CartItem'
+import ConfirmModal from '../components/ConfirmModal'
 import EmptyCartUI from '../components/EmptyCartUI'
 import PeopleAlsoBought from '../components/PeopleAlsoBought'
 import { useCartStore } from '../stores/useCartStore'
 
 const CartPage = () => {
-  const { cart } = useCartStore()
+  const { cart, removeFromCart } = useCartStore()
+  const [productIdToDelete, setProductIdToDelete] = useState(null)
 
   return (
     <div className="py-8 md:py-16">
@@ -23,7 +26,11 @@ const CartPage = () => {
             ) : (
               <div className="space-y-6">
                 {cart.map((item) => (
-                  <CartItem key={item._id} item={item} />
+                  <CartItem
+                    key={item._id}
+                    item={item}
+                    onOpenModal={setProductIdToDelete}
+                  />
                 ))}
               </div>
             )}
@@ -31,6 +38,14 @@ const CartPage = () => {
           </motion.div>
         </div>
       </div>
+
+      <ConfirmModal
+        isOpen={!!productIdToDelete}
+        onClose={() => setProductIdToDelete(null)}
+        onConfirm={() => removeFromCart(productIdToDelete)}
+        title="Remove Item?"
+        message="Are you sure you want to remove this product from your cart?"
+      />
     </div>
   )
 }
