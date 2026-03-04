@@ -86,6 +86,17 @@ export const createCheckoutSession = async (req, res) => {
 export const checkoutSuccess = async (req, res) => {
   try {
     const { sessionId } = req.body
+
+    const existingOrder = await Order.findOne({ stripeSessionId: sessionId })
+
+    if (existingOrder) {
+      return res.status(200).json({
+        success: true,
+        message: 'Order already processed.',
+        orderId: existingOrder._id,
+      })
+    }
+
     const session = await stripe.checkout.sessions.retrieve(sessionId)
 
     if (session.payment_status === 'paid') {
@@ -121,6 +132,8 @@ export const checkoutSuccess = async (req, res) => {
           'Payment successful, order created, and coupon deactivated if used.',
         orderId: newOrder._id,
       })
+    } else {
+      res.status(400).json({ message: 'Payment not completed' })
     }
   } catch (error) {
     console.error('Error processing successful checkout:', error)
