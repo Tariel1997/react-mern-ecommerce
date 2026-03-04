@@ -96,5 +96,14 @@ export const useCartStore = create((set, get) => ({
     set({ subtotal, total })
   },
 
-  clearCart: () => set({ cart: [], subtotal: 0, total: 0 }),
+  clearCart: () => set({ cart: [], coupon: null, subtotal: 0, total: 0 }),
+
+  purgeCart: async () => {
+    try {
+      await axios.delete('/cart', { data: {} })
+      set({ cart: [], coupon: null, total: 0, subtotal: 0 })
+    } catch (error) {
+      console.error('Error purging cart:', error)
+    }
+  },
 }))

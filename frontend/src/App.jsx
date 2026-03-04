@@ -10,6 +10,7 @@ import CartPage from './pages/CartPage'
 import CategoryPage from './pages/CategoryPage'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
+import PurchaseSuccessPage from './pages/PurchaseSuccessPage'
 import SignUpPage from './pages/SignUpPage'
 import { useCartStore } from './stores/useCartStore'
 import { useUserStore } from './stores/useUserStore'
@@ -62,6 +63,10 @@ function App() {
           <Route
             path="/cart"
             element={user ? <CartPage /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/purchase-success"
+            element={user ? <PurchaseSuccessPage /> : <Navigate to="/login" />}
           />
         </Routes>
       </div>
