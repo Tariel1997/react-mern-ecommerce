@@ -1,16 +1,46 @@
 import { motion } from 'framer-motion'
-import { MoveRight } from 'lucide-react'
+import { CreditCard, Loader, MoveRight } from 'lucide-react'
+import { useState } from 'react'
+import toast from 'react-hot-toast'
 import { Link } from 'react-router-dom'
 
+import axios from '../lib/axios'
 import { useCartStore } from '../stores/useCartStore'
 
 const OrderSummary = () => {
-  const { total, subtotal, coupon, isCouponApplied } = useCartStore()
+  const { total, subtotal, coupon, isCouponApplied, cart } = useCartStore()
   const savings = subtotal - total
+  const [isProcessing, setIsProcessing] = useState(false)
 
   const formattedSubtotal = subtotal.toFixed(2)
   const formattedTotal = total.toFixed(2)
   const formattedSavings = savings.toFixed(2)
+
+  const handlePayment = async () => {
+    setIsProcessing(true)
+    try {
+      const res = await axios.post('/payments/create-checkout-session', {
+        products: cart,
+        couponCode: coupon ? coupon.code : null,
+      })
+
+      const session = res.data
+
+      if (session.url) {
+        window.location.href = session.url
+      } else {
+        console.error('Session URL not found in the response')
+      }
+    } catch (error) {
+      console.error('Error in payment flow:', error)
+      toast.error(
+        error.response?.data?.message ||
+          'An error occurred during payment processing. Please try again.',
+      )
+    } finally {
+      setIsProcessing(false)
+    }
+  }
 
   return (
     <>
@@ -61,11 +91,23 @@ const OrderSummary = () => {
 
           <motion.button
             className="flex w-full items-center justify-center rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-4 focus:ring-emerald-300"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={!isProcessing ? { scale: 1.05 } : {}}
+            whileTap={!isProcessing ? { scale: 0.95 } : {}}
             transition={{ duration: 0.3 }}
+            onClick={handlePayment}
+            disabled={isProcessing}
           >
-            Proceed to Checkout
+            {isProcessing ? (
+              <>
+                <Loader className="mr-2 h-5 w-5 animate-spin" aria-hidden="true" />
+                Processing...
+              </>
+            ) : (
+              <>
+                <CreditCard className="mr-2 h-5 w-5" aria-hidden="true" />
+                Proceed to Checkout
+              </>
+            )}
           </motion.button>
 
           <div className="flex items-center justify-center gap-2">
