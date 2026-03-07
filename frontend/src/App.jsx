@@ -10,6 +10,7 @@ import CartPage from './pages/CartPage'
 import CategoryPage from './pages/CategoryPage'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
+import PurchaseCancelPage from './pages/PurchaseCancelPage'
 import PurchaseSuccessPage from './pages/PurchaseSuccessPage'
 import SignUpPage from './pages/SignUpPage'
 import { useCartStore } from './stores/useCartStore'
@@ -67,6 +68,10 @@ function App() {
           <Route
             path="/purchase-success"
             element={user ? <PurchaseSuccessPage /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/purchase-cancel"
+            element={user ? <PurchaseCancelPage /> : <Navigate to="/login" />}
           />
         </Routes>
       </div>
