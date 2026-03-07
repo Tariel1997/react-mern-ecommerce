@@ -1,18 +1,26 @@
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useCartStore } from '../stores/useCartStore'
 
 const GiftCouponCard = () => {
   const [userInputCode, setUserInputCode] = useState('')
-  const { coupon, isCouponApplied } = useCartStore()
+  const { coupon, isCouponApplied, getMyCoupon, applyCoupon, removeCoupon } =
+    useCartStore()
+
+  useEffect(() => {
+    getMyCoupon()
+  }, [getMyCoupon])
 
   const handleApplyCoupon = () => {
-    console.log(userInputCode)
+    const codeToApply = userInputCode || coupon?.code
+    if (!codeToApply) return
+    applyCoupon(codeToApply)
   }
 
-  const handleRemoveCoupon = () => {
-    console.log('Remove coupon')
+  const handleRemoveCoupon = async () => {
+    await removeCoupon()
+    setUserInputCode('')
   }
 
   return (
@@ -32,11 +40,12 @@ const GiftCouponCard = () => {
               Do you have a voucher or gift card?
             </label>
             <input
+              key={coupon?.code || 'empty'}
               type="text"
               id="voucher"
               className="block w-full rounded-lg border border-gray-600 bg-gray-700 p-2.5 text-sm text-white placeholder-gray-400 focus:border-emerald-500 focus:ring-emerald-500"
               placeholder="Enter code here"
-              value={userInputCode}
+              defaultValue={coupon?.code || ''}
               onChange={(e) => setUserInputCode(e.target.value)}
               required
             />
