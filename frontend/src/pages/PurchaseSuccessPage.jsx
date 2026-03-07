@@ -1,5 +1,6 @@
 import { ArrowRight, CheckCircle, HandHeart } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
+import Confetti from 'react-confetti'
 import { Link } from 'react-router-dom'
 
 import axios from '../lib/axios'
@@ -43,7 +44,14 @@ const PurchaseSuccessPage = () => {
 
   return (
     <div className="h-screen flex items-center justify-center px-4">
-      {/* <Confetti /> */}
+      <Confetti
+        width={window.innerWidth}
+        height={window.innerHeight}
+        gravity={0.2}
+        style={{ zIndex: 99 }}
+        numberOfPieces={700}
+        recycle={false}
+      />
 
       <div className="max-w-md w-full bg-gray-800 rounded-lg shadow-xl overflow-hidden relative z-10">
         <div className="p-6 sm:p-8">
