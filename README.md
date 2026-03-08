@@ -101,17 +101,28 @@ Make sure you have installed:
    CLOUDINARY_API_SECRET=your_cloudinary_api_secret
    STRIPE_SECRET_KEY=your_stripe_secret
    CLIENT_URL=http://localhost:5173
+   NODE_ENV=development
    ```
 
 4. **Run the Application locally:**
    Start the backend and frontend development servers.
+
    ```bash
    npm run dev
    ```
+
    _And in a separate terminal for the frontend:_
+
    ```bash
    cd frontend
    npm run dev
+   ```
+
+5. **Build and Run for Production:**
+   If you want to run the app in production mode with the built frontend assets:
+   ```bash
+   npm run build
+   npm start
    ```
 
 ---
